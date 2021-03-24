@@ -1,5 +1,5 @@
 //Controls for music player
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlay,
@@ -7,7 +7,7 @@ import {
   faAngleRight,
   faPause,
 } from "@fortawesome/free-solid-svg-icons";
-import {playAudio} from '../util';
+import { playAudio } from '../util';
 
 const Player = ({
   songs,
@@ -67,7 +67,7 @@ const Player = ({
       setCurrentSong(songs[(currentIndex + 1) % songs.length]);
     }
     if (direction === "skip-back") {
-      if(currentIndex - 1 % songs.length === -1) {
+      if (currentIndex - 1 % songs.length === -1) {
         setCurrentSong(songs[songs.length - 1])
         playAudio(isPlaying, audioRef)
         return;
@@ -77,17 +77,25 @@ const Player = ({
     playAudio(isPlaying, audioRef)
   };
 
+  //Add Styles
+  const trackAnim = {
+    transform: `translateX(${songInfo.animationPercentage}%)`
+  }
+
   return (
     <div className="player">
       <div className="time-control">
         <p>{formatTime(songInfo.currentTime)}</p>
-        <input
-          min={0}
-          max={songInfo.duration || 0}
-          value={songInfo.currentTime}
-          onChange={dragHandler}
-          type="range"
-        />
+        <div style={{background: `linear-gradient(to right, ${currentSong.color[0]}, ${currentSong.color[1]})`}} className="track">
+          <input
+            min={0}
+            max={songInfo.duration || 0}
+            value={songInfo.currentTime}
+            onChange={dragHandler}
+            type="range"
+          />
+          <div style={trackAnim} className="animate-track"></div>
+        </div>
         <p>{songInfo.duration ? formatTime(songInfo.duration) : '0:00'}</p>
       </div>
       <div className="play-control">

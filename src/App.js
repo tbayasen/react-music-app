@@ -24,15 +24,20 @@ function App() {
   const [songInfo, setSongInfo] = useState({
     currentTime: 0,
     duration: 0,
+    animationPercentage: 0,
   });
 
   // Handlers
   const timeUpdateHandler = (e) => {
     const currentTime = e.target.currentTime;
     const duration = e.target.duration;
-    setSongInfo({ ...songInfo, currentTime, duration });
+    //Calculate Percentage Time Through Current Song
+    const roundedCurrent = Math.round(currentTime);
+    const roundedDuration = Math.round(duration);
+    const animation = Math.round((roundedCurrent / roundedDuration) * 100)
+    console.log(animation);
+    setSongInfo({ ...songInfo, currentTime, duration, animationPercentage: animation });
   };
-
   return (
     <div className="App">
       <Nav libraryOpen={libraryOpen} setLibraryOpen={setLibraryOpen} />
